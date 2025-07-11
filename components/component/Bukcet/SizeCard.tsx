@@ -25,6 +25,7 @@ import { BucketSizes } from "@/globalvariables";
 import { AddedSizeCost, bytesToMB, checkDifference } from "@/lib/utils";
 import { Database, Loader, PackagePlus } from "lucide-react";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 export default function SizeCard({
   size,
@@ -62,12 +63,12 @@ export default function SizeCard({
 
       if (success) {
         await revalidate(id);
-        console.log(message);
+        toast.success(message);
+      } else {
+        toast.error(message);
       }
-
-      console.log(message);
     } catch (e) {
-      console.log(e);
+      toast.error("Failed to add size.");
     }
     setLoading(false);
     setOpen(false);
@@ -85,7 +86,7 @@ export default function SizeCard({
     ).toFixed(2);
 
     setCost(Number(newCost));
-  }, [newSize]);
+  }, [newSize, expiryTime]);
 
   return (
     <Card className="max-w-sm w-fit min-w-52">

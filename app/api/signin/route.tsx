@@ -10,7 +10,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
     prisma.$disconnect();
 
     if (!user)
-      return NextResponse.json({ success: false, message: "Email Not Found" });
+      return NextResponse.json({ success: false, message: "Email Not Found." });
 
     if (user.hashesPassword == password) {
       return NextResponse.json({

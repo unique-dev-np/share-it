@@ -35,7 +35,7 @@ export async function DELETE(req: NextRequest) {
     console.error("Error deleting files: ", error);
     return NextResponse.json({
       success: false,
-      message: `Error deleting files: ${error}`,
+      message: "Failed to delete files.",
     });
   } finally {
     await prisma.$disconnect();

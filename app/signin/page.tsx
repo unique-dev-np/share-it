@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Loader, LogIn } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useState } from "react";
+import { toast } from "react-toastify";
 
 import Link from "next/link";
 
@@ -44,7 +45,7 @@ export default function Page() {
         console.log(res);
 
         if (res?.error) {
-          console.log("Could not authenticate user.");
+          toast.error("Could not authenticate user.");
           setLoading(false);
           return;
         }

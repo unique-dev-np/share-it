@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Loader, Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 
 export default function HeaderDeleteButton({
   bucketId,
@@ -33,10 +34,12 @@ export default function HeaderDeleteButton({
       if (success) {
         revalidate(bucketId);
         router.push("/buckets");
+        toast.success("Bucket deleted successfully!");
+      } else {
+        toast.error(message);
       }
-      console.log(message);
     } catch (e) {
-      console.log(e);
+      toast.error("Failed to delete bucket.");
     }
   }
 

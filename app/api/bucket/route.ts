@@ -70,11 +70,15 @@ export async function POST(req: NextRequest, res: NextResponse) {
       message: "Bucket created successfully.",
       bucket,
     });
-  } catch (e) {
+  } catch (e: any) {
     console.log(e);
+    let message = "Can not create the bucket";
+    if (e.message === "User doesn't have enough balance.") {
+      message = e.message;
+    }
     return NextResponse.json({
       success: false,
-      message: "Can not create the bucket",
+      message: message,
       type: "database",
     });
   }

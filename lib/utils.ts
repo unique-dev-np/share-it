@@ -38,8 +38,8 @@ export function MBtoBytes(MB: number) {
   return MB * 1000 * 1000;
 }
 
-const SIZE_COST_COEFF = 0.01;
-const TIME_COST_COEFF = 0.00002;
+const SIZE_COST_COEFF = 0.005; // 0.5 cents per MB
+const TIME_COST_COEFF = 0.00001; // 0.001 cents per minute per MB
 
 export function CreationCostCalculation(bytes: number, minutes: number) {
   let MB = bytesToMB(bytes);

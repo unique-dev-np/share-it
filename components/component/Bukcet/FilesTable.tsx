@@ -7,6 +7,7 @@ import Link from "next/link";
 import DataTable from "react-data-table-component";
 import FileSaver from "file-saver";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { bytesToMB } from "@/lib/utils";
 import GlobalAlertDialog from "../GlobalAlertDialog";
 
@@ -61,10 +62,9 @@ export default function FilesTable({
     if (success) {
       await revalidate(files[0].bucketId);
       setSelectedRows([]);
-      console.log(message);
+      toast.success(message);
     } else {
-      // await revalidate(files[index].bucketId);
-      // console.log(message);
+      toast.error(message);
     }
   }
 
@@ -79,10 +79,9 @@ export default function FilesTable({
       if (success) {
         await revalidate(files[0].bucketId);
         setSelectedRows([]);
-        console.log(message);
+        toast.success(message);
       } else {
-        // await revalidate(files[index].bucketId);
-        // console.log(message);
+        toast.error(message);
       }
 
       return;
@@ -97,10 +96,9 @@ export default function FilesTable({
     if (success) {
       await revalidate(selectedRows[0].bucketId);
       setSelectedRows([]);
-      console.log(message);
+      toast.success(message);
     } else {
-      // await revalidate(files[index].bucketId);
-      // console.log(message);
+      toast.error(message);
     }
   }
 

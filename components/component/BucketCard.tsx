@@ -7,6 +7,7 @@ import { ExternalLink, Share2, Trash } from "lucide-react";
 import { Separator } from "../ui/separator";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { bytesToMB, checkDifference, cn, getPreetyTime } from "@/lib/utils";
 import GlobalAlertDialog from "./GlobalAlertDialog";
 
@@ -20,6 +21,7 @@ export default function BucketCard({
     size: number;
     usedSize: number;
     expiresIn: Date;
+    isLocked: boolean;
   };
   revalidate: () => Promise<void>;
 }) {
@@ -32,26 +34,37 @@ export default function BucketCard({
     }, 100);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [bucket.expiresIn]);
 
   async function deleteBucket(id: string) {
     if (loading) return;
     setLoading(true);
-    let res = await fetch("/api/bucket", {
-      method: "DELETE",
-      body: JSON.stringify({ id }),
-    });
+    try {
+      let res = await fetch("/api/bucket", {
+        method: "DELETE",
+        body: JSON.stringify({ id }),
+      });
 
-    let { success, message } = await res.json();
+      let { success, message } = await res.json();
 
-    if (success) {
-      console.log(message);
-      revalidate();
-    } else {
+      if (success) {
+        toast.success(message);
+        revalidate();
+      } else {
+        toast.error(message);
+      }
+    } catch (e: any) {
+      toast.error("Failed to delete bucket.");
+    } finally {
       setLoading(false);
-      console.log(message);
     }
   }
+
+  const handleShare = (id: string) => {
+    const shareableLink = `${window.location.origin}/b/${id}`;
+    navigator.clipboard.writeText(shareableLink);
+    toast.success("Shareable link copied to clipboard!");
+  };
 
   return (
     <Card
@@ -98,8 +111,13 @@ export default function BucketCard({
             </Link>
           </Button>
         )}
-        <Button disabled={expiresIn < 0} className="w-fit" variant="outline">
-          <Share2 className="w-[20px] mr" />
+        <Button
+          disabled={expiresIn < 0 || bucket.isLocked}
+          className="w-fit"
+          variant="outline"
+          onClick={() => handleShare(bucket.id)}
+        >
+          <Share2 className="w-[20px] mr-2" /> Share
         </Button>
 
         <GlobalAlertDialog

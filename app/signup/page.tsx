@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Loader, LogIn } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { ChangeEvent, useState } from "react";
+import { toast } from "react-toastify";
 
 import Link from "next/link";
 
@@ -46,18 +47,19 @@ export default function Page() {
           await res.json();
 
         if (success) {
-          console.log(message);
+          toast.success(message);
+          router.push("/signin");
         } else {
-          console.log(message);
+          toast.error(message);
         }
       } catch (e) {
-        console.log(e);
+        toast.error("Failed to sign up.");
       }
     } catch (e: any) {
       // Validation Error
       let issues = e.issues;
       issues.forEach((issue: ZodIssue) => {
-        console.log(issue.path + ": " + issue.message);
+        toast.error(issue.path + ": " + issue.message);
       });
     }
 

@@ -21,6 +21,7 @@ async function getBuckets(session: Session | null) {
         name: true,
         expiresIn: true,
         id: true,
+        isLocked: true,
       },
     });
 

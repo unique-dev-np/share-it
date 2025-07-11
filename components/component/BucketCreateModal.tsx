@@ -24,6 +24,7 @@ import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { ChangeEvent, useEffect, useState } from "react";
 import { Badge } from "../ui/badge";
+import { toast } from "react-toastify";
 import { BucketAges, BucketSizes } from "@/globalvariables";
 import { CreateBucketFormValidator } from "@/types";
 import { ZodError } from "zod";
@@ -52,7 +53,9 @@ export default function BucketCreateModal({
       CreateBucketFormValidator.parse(formData);
     } catch (e) {
       if (e instanceof ZodError) {
-        console.log(e.issues);
+        toast.error(e.issues[0].message);
+        setLoading(false);
+        return;
       }
     }
 
@@ -75,8 +78,9 @@ export default function BucketCreateModal({
           size: "",
         });
         setLoading(false);
+        toast.success("Bucket created successfully!");
       } else {
-        console.log(message);
+        toast.error(message);
         setLoading(false);
       }
     } catch (e) {

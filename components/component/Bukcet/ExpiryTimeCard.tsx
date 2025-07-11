@@ -30,6 +30,7 @@ import {
 } from "@/lib/utils";
 import { AlarmClock, AlarmClockPlus, Loader, PackagePlus } from "lucide-react";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 export default function ExpiryTimeCard({
   expiryDate,
@@ -66,7 +67,7 @@ export default function ExpiryTimeCard({
     let lifeCost = TimeCost(Number(addedTime), bytesToMB(size)).toFixed(2);
 
     setCost(Number(lifeCost));
-  }, [addedTime]);
+  }, [addedTime, size]);
 
   async function addTime() {
     setLoading(true);
@@ -81,7 +82,9 @@ export default function ExpiryTimeCard({
       revalidate(id);
       setOpen(false);
       setExpiryDate(newExpiry);
-      console.log(message);
+      toast.success(message);
+    } else {
+      toast.error(message);
     }
     setLoading(false);
   }

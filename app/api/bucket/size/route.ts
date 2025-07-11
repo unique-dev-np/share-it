@@ -42,10 +42,14 @@ export async function POST(request: NextRequest) {
       success: true,
       message: `${addedMB} MB added successfully.`,
     });
-  } catch (e) {
+  } catch (e: any) {
+    let message = `Failed to add ${addedMB} MB.`;
+    if (e.message === "User doesn't have enough balance.") {
+      message = e.message;
+    }
     return NextResponse.json({
       success: false,
-      message: `Failed to add ${addedMB} MB.`,
+      message: message,
     });
   }
 }

@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({
       success: false,
-      message: "Lock state can't be updated successfuly.",
+      message: "Failed to update lock state.",
     });
   }
 }

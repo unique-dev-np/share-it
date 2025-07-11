@@ -6,6 +6,8 @@ import { Inter, Merriweather, Poppins } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { NextRequest } from "next/server";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const font1 = Poppins({
   weight: "400",
@@ -32,7 +34,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <NextAuthProvider>
-        <body className={cn(font1.variable, font2.variable)}>{children}</body>
+        <body className={cn(font1.variable, font2.variable)}>{children}<ToastContainer /></body>
       </NextAuthProvider>
     </html>
   );

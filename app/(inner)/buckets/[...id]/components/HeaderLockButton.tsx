@@ -4,6 +4,7 @@ import GlobalAlertDialog from "@/components/component/GlobalAlertDialog";
 import { Button } from "@/components/ui/button";
 import { Loader, Lock, LockOpen, Trash } from "lucide-react";
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 
 export default function HeaderLockButton({
   isLocked,
@@ -33,9 +34,12 @@ export default function HeaderLockButton({
       if (success) {
         setIsLockedClient(updatedIsLocked);
         revalidate(bucketId);
+        toast.success(message);
+      } else {
+        toast.error(message);
       }
     } catch (e) {
-      console.log(e);
+      toast.error("Failed to change bucket lock status.");
     }
     setIsLoading(false);
   }

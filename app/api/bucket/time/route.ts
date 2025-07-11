@@ -50,10 +50,14 @@ export async function POST(req: NextRequest, res: NextResponse) {
       message: "Time added successfully",
       newExpiry: prismaRes.expiresIn,
     });
-  } catch (e) {
+  } catch (e: any) {
+    let message = "Time Cannot be added!";
+    if (e.message === "User doesn't have enough balance.") {
+      message = e.message;
+    }
     return NextResponse.json({
       success: false,
-      message: "Time Cannot be added!",
+      message: message,
     });
   }
 }

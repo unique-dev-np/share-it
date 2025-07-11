@@ -48,7 +48,7 @@ export default async function ProfilePage() {
 
   return (
     <div className="p-8">
-      <Header name={user.name} email={user.email} />
+      <Header name={user.name} email={user.email} image={user.image || ""} />
       <div className="mt-8">
         <InfoCards 
           balance={user.balance}
