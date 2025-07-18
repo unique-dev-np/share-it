@@ -27,6 +27,10 @@ export async function POST(req: NextRequest, res: NextResponse) {
       success: true,
     });
   } catch (e) {
+
+    console.log(e);
+
+
     return NextResponse.json({
       message: "Failed to create client",
       success: false,

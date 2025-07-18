@@ -2,16 +2,24 @@
 
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
-import { checkDifference, getPreetyTime } from "@/lib/utils";
+import { checkDifference, getPreetyTime, isBucketExpired } from "@/lib/utils";
 import { AlarmClock } from "lucide-react";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 export default function TimeCard({ expiryDate }: { expiryDate: Date }) {
-  let [expiryDateClient, setExpiryDate] = useState(expiryDate);
+  let [expiryDateClient] = useState(expiryDate);
   let [expiresIn, setExpiresIn] = useState<number>(0);
+
+  const router = useRouter()
 
   useEffect(() => {
     let interval = setInterval(() => {
+
+      if (isBucketExpired(expiryDateClient)) {
+        router.reload()
+      }
+
       setExpiresIn(checkDifference(expiryDateClient));
     }, 1000);
 

@@ -46,7 +46,7 @@ export const ourFileRouter = {
       return { bucketId };
     })
     .onUploadComplete(async ({ metadata, file }) => {
-      // This code RUNS ON YOUR SERVER after upload
+      // This code RUNS after upload
 
       const { bucketId } = metadata;
 

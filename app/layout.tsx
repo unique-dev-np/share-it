@@ -34,7 +34,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <NextAuthProvider>
-        <body className={cn(font1.variable, font2.variable)}>{children}<ToastContainer /></body>
+        <body className={cn(font1.variable, font2.variable)}>{children}<ToastContainer position="bottom-right" /></body>
       </NextAuthProvider>
     </html>
   );

@@ -1,16 +1,17 @@
 "use client";
 
-import { Cog, Database, Home, LogOut, User } from "lucide-react";
-import { Separator } from "../ui/separator";
-import Brand from "./Brand";
-import { Button } from "../ui/button";
+import { Database, Home, LogOut, User } from "lucide-react";
+import Brand from "@/components/common/Brand";
+import { Button } from "@/components//ui/button";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { signOut } from "next-auth/react";
+import GlobalAlertDialog from "@/components/common/GlobalAlertDialog";
+
+const iconStyle = "w-[20px]";
 
 export default function DashboardSidebar() {
-  const iconStyle = "w-[20px]";
 
   const navLinks = [
     {
@@ -29,18 +30,11 @@ export default function DashboardSidebar() {
       icon: <User className={iconStyle} />,
     },
     {
-      name: "Settings",
-      href: "/settings",
-      icon: <Cog className={iconStyle} />,
-    },
-    {
       name: "Logout",
       href: "/signout",
       icon: <LogOut className={iconStyle} />,
       isButton: true,
-      onClick: () => {
-        signOut({ redirect: true, callbackUrl: "/" });
-      },
+      component: LogoutComponent
     },
   ];
 
@@ -51,26 +45,24 @@ export default function DashboardSidebar() {
       }
     >
       <Brand />
-      {/* <Separator className="mt-3" /> */}
 
       <nav className="flex flex-col gap-4 px-4 py-8">
-        {navLinks.map((link, index) =>
-          !link.isButton ? (
-            <NavLink
-              key={index}
-              name={link.name}
-              href={link.href}
-              icon={link.icon}
-            />
-          ) : (
-            <NavButton
-              key={index}
-              name={link.name}
-              icon={link.icon}
-              onClick={link.onClick}
-            />
-          )
-        )}
+
+        <>
+          {navLinks.map((link, index) =>
+            !link.isButton ? (
+              <NavLink
+                key={index}
+                name={link.name}
+                href={link.href}
+                icon={link.icon}
+              />
+            ) : (
+              <link.component key={index} />
+            )
+          )}
+        </>
+
       </nav>
     </div>
   );
@@ -122,4 +114,32 @@ function NavButton({
       {icon} {name}{" "}
     </Button>
   );
+}
+
+
+
+function LogoutComponent() {
+
+  return (
+    <GlobalAlertDialog
+      title="Do you really want to log out?"
+      description=""
+      action={() => signOut({ redirect: true, callbackUrl: "/" })}
+      innerButtonElement={
+        <Button
+          className={cn("justify-start gap-4 bg-destructive hover:bg-destructive")}
+          variant="destructive"
+
+        >
+          <LogOut className={iconStyle} /> Log Out
+        </Button>}
+    >
+      <Button
+        className={cn("w-full justify-start gap-4 ")}
+        variant="ghost"
+      >
+        <LogOut className={iconStyle} /> Log Out
+      </Button>
+    </GlobalAlertDialog>
+  )
 }

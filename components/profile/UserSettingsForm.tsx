@@ -13,8 +13,7 @@ import { toast } from "react-toastify";
 const formSchema = z.object({
   name: z.string().min(1, "Name is required").max(100),
   email: z.string().email("Invalid email address"),
-  image: z.string().optional(),
-  balance: z.string().optional(),
+  image: z.string().optional()
 });
 
 type UserSettingsFormValues = z.infer<typeof formSchema>;
@@ -39,24 +38,11 @@ export default function UserSettingsForm({
 
   const onSubmit = async (data: UserSettingsFormValues) => {
     setLoading(true);
+
+
     try {
-      const parsedBalance = data.balance === "" || data.balance === undefined ? undefined : Number(data.balance);
-
-      if (parsedBalance !== undefined && isNaN(parsedBalance)) {
-        toast.error("Invalid balance value.");
-        setLoading(false);
-        return;
-      }
-
-      if (parsedBalance !== undefined && parsedBalance < 0) {
-        toast.error("Balance cannot be negative.");
-        setLoading(false);
-        return;
-      }
-
       const dataToSend = {
-        ...data,
-        balance: parsedBalance,
+        ...data
       };
 
       const response = await fetch("/api/user", {
@@ -120,13 +106,6 @@ export default function UserSettingsForm({
         )}
       </div>
 
-      <div>
-        <Label htmlFor="balance">Balance</Label>
-        <Input id="balance" type="number" step="0.01" {...register("balance")} />
-        {errors.balance && (
-          <p className="text-red-500 text-sm mt-1">{errors.balance.message}</p>
-        )}
-      </div>
 
       <Button type="submit" disabled={loading}>
         {loading ? "Saving..." : "Save Changes"}

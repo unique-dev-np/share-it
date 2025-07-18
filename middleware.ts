@@ -10,5 +10,7 @@ export default withAuth(function middleware(req) {}, {
 });
 
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico|b|signin|signup|$).*)"],
+  matcher: [
+    "/((?!api|_next/static|_next/image|favicon.ico|b|signin|signup|$).*)",
+  ],
 };

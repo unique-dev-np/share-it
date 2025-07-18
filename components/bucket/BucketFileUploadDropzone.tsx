@@ -1,6 +1,7 @@
 "use client";
 
 import { UploadDropzone } from "@/lib/uploadthing";
+import { toast } from "react-toastify";
 
 export default function FileUploadDropzone({
   bucketID,
@@ -20,11 +21,11 @@ export default function FileUploadDropzone({
           // Do something with the response
           console.log("Files: ", res);
           revalidate(bucketID);
-          alert("Upload Completed");
+          toast.success(`${res.length} file(s) uploaded successfully`);
         }}
         onUploadError={(error: Error) => {
           // Do something with the error.
-          alert(`ERROR! ${error.message}`);
+          toast.error(`Failed to upload file(s).`)
         }}
       />
     </div>

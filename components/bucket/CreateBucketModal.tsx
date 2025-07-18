@@ -1,29 +1,21 @@
 "use client";
 
-import { Database, Loader, PackagePlus, PlusIcon } from "lucide-react";
-import { Button } from "../ui/button";
+import { Database, Loader, PackagePlus, PlusCircle, PlusIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogFooter,
   DialogTitle,
   DialogTrigger,
-} from "../ui/dialog";
+} from "@/components/ui/dialog";
 
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-import { Label } from "../ui/label";
-import { Input } from "../ui/input";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 import { ChangeEvent, useEffect, useState } from "react";
-import { Badge } from "../ui/badge";
+import { Badge } from "@/components/ui/badge";
 import { toast } from "react-toastify";
 import { BucketAges, BucketSizes } from "@/globalvariables";
 import { CreateBucketFormValidator } from "@/types";
@@ -106,9 +98,10 @@ export default function BucketCreateModal({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <Button asChild size="icon">
-        <DialogTrigger>
-          <PlusIcon />
+      <Button asChild >
+        <DialogTrigger >
+          <PlusCircle className="mr-2" />
+          Create New Bucket
         </DialogTrigger>
       </Button>
       <DialogContent>

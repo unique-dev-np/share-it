@@ -26,6 +26,12 @@ export function checkDifference(expiryDateString: Date) {
   return diffSeconds;
 }
 
+export function isBucketExpired(expiryDateString: Date) {
+  const remainingTime = checkDifference(expiryDateString);
+
+  return remainingTime <= 0;
+}
+
 export function addMinutes(date: Date, minutes: number) {
   return new Date(date.getTime() + minutes * 60000);
 }

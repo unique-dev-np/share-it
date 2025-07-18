@@ -1,15 +1,15 @@
 "use client";
 
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import BucketCardDropdownMenu from "./BucketCardDropdownMenu";
-import { Button } from "../ui/button";
+import BucketCardDropdownMenu from "./BucketCardMenu";
+import { Button } from "@/components/ui/button";
 import { ExternalLink, Share2, Trash } from "lucide-react";
-import { Separator } from "../ui/separator";
+import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { bytesToMB, checkDifference, cn, getPreetyTime } from "@/lib/utils";
-import GlobalAlertDialog from "./GlobalAlertDialog";
+import GlobalAlertDialog from "@/components/common/GlobalAlertDialog";
 
 export default function BucketCard({
   bucket,

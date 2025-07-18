@@ -1,6 +1,6 @@
 "use client";
 
-import GlobalAlertDialog from "@/components/component/GlobalAlertDialog";
+import GlobalAlertDialog from "@/components/common/GlobalAlertDialog";
 import { Button } from "@/components/ui/button";
 import { Loader, Lock, LockOpen, Trash } from "lucide-react";
 import React, { useState } from "react";
@@ -34,10 +34,18 @@ export default function HeaderLockButton({
       if (success) {
         setIsLockedClient(updatedIsLocked);
         revalidate(bucketId);
-        toast.success(message);
+
+        if (updatedIsLocked) {
+          toast.success("Your files are now private.");
+        }
+        else {
+          toast.success("Your files are public.");
+        }
       } else {
+
         toast.error(message);
       }
+
     } catch (e) {
       toast.error("Failed to change bucket lock status.");
     }

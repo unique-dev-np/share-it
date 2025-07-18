@@ -2,10 +2,10 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import prisma from "@/prisma/db";
 import { redirect } from "next/navigation";
-import Header from "./components/Header";
-import InfoCards from "./components/InfoCards";
-import RecentBucketsTable from "./components/RecentBucketsTable";
-import PaymentHistoryTable from "./components/PaymentHistoryTable";
+import Header from "@/components/profile/ProfileHeader";
+import InfoCards from "@/components/dashboard/InfoCards";
+import RecentBucketsTable from "@/components/dashboard/RecentBucketsTable";
+import PaymentHistoryTable from "@/components/profile/PaymentHistoryTable";
 
 export default async function ProfilePage() {
   const session = await getServerSession(authOptions);
@@ -50,11 +50,11 @@ export default async function ProfilePage() {
     <div className="p-8">
       <Header name={user.name} email={user.email} image={user.image || ""} />
       <div className="mt-8">
-        <InfoCards 
+        <InfoCards
           balance={user.balance}
-          totalBuckets={totalBuckets} 
-          totalFiles={totalFiles} 
-          totalSize={totalSize} 
+          totalBuckets={totalBuckets}
+          totalFiles={totalFiles}
+          totalSize={totalSize}
         />
       </div>
       <div className="mt-8">

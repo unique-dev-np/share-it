@@ -3,7 +3,7 @@ import prisma from "@/prisma/db";
 import { Database, File, FileBarChart, Gauge } from "lucide-react";
 import TimeCard from "./components/TimeCard";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { bytesToMB } from "@/lib/utils";
+import { bytesToMB, isBucketExpired } from "@/lib/utils";
 import SizeCard from "./components/SizeCard";
 import FilesTable from "./components/Filestable";
 import { getCachedPublicBucket } from "@/server/data";
@@ -17,7 +17,7 @@ export default async function page({ params }: { params: { id: string } }) {
   //   include: { user: true, files: true },
   // });
 
-  if (!bucket) {
+  if (!bucket || isBucketExpired(bucket.expiresIn)) {
     return <div>Bucket Not Found</div>;
   }
 

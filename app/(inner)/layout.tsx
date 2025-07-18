@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import DashboardSidebar from "@/components/component/DashboardSidebar";
+import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
 import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
@@ -15,13 +15,13 @@ export default function RootLayout({
 
 
   return (
-     <>
-        <main className="flex bg-primary-foreground" >
-        <DashboardSidebar/>
+    <>
+      <main className="flex bg-primary-foreground" >
+        <DashboardSidebar />
         <div className="p-4 w-full  mx-auto h-screen overflow-y-auto" >
-        {children}
+          {children}
         </div>
-        </main>
-     </>   
+      </main>
+    </>
   );
 }

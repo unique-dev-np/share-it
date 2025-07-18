@@ -9,7 +9,7 @@ import FileSaver from "file-saver";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { bytesToMB } from "@/lib/utils";
-import GlobalAlertDialog from "../GlobalAlertDialog";
+import GlobalAlertDialog from "@/components/common/GlobalAlertDialog";
 
 export default function FilesTable({
   files,
@@ -47,6 +47,7 @@ export default function FilesTable({
   }
 
   async function deleteFile(fileKey: string) {
+    setLoading(true);
     console.log(fileKey);
 
     const res = await fetch("/api/bucket/file", {
@@ -66,9 +67,11 @@ export default function FilesTable({
     } else {
       toast.error(message);
     }
+    setLoading(false);
   }
 
   async function deleteMultipleFiles(selectedRows: File[]) {
+    setLoading(true);
     if (selectedRows.length < 1) {
       const res = await fetch("/api/bucket/file", {
         method: "DELETE",
@@ -84,6 +87,7 @@ export default function FilesTable({
         toast.error(message);
       }
 
+      setLoading(false);
       return;
     }
 
@@ -100,6 +104,7 @@ export default function FilesTable({
     } else {
       toast.error(message);
     }
+    setLoading(false);
   }
 
   const columns = [
@@ -142,6 +147,7 @@ export default function FilesTable({
             action={() => deleteFile(row.key)}
             title={`Do you want to delete "${row.name}" ?`}
             description="This action is irreversible. This will delete the selected file from our servers."
+            loading={loading}
             innerButtonElement={
               <Button variant="destructive">
                 <Trash className="h-[20px] mr-2" /> Delete
@@ -165,21 +171,20 @@ export default function FilesTable({
         </h1>
         <div className="actions flex gap-2 items-center">
           <GlobalAlertDialog
-            title={`Do you want to download ${
-              selectedRows.length > 0 ? selectedRows.length : "all"
-            } files`}
+            title={`Do you want to download ${selectedRows.length > 0 ? selectedRows.length : "all"
+              } files`}
             description=""
-            action={() => {}}
+            action={() => { }}
             innerButtonElement={
               <Link
                 href={
                   selectedRows.length > 0
                     ? `/api/archive?images=${encodeURIComponent(
-                        JSON.stringify({ selectedRows, bucketName })
-                      )}`
+                      JSON.stringify({ selectedRows, bucketName })
+                    )}`
                     : `/api/archive?images=${encodeURIComponent(
-                        JSON.stringify({ files, bucketName })
-                      )}`
+                      JSON.stringify({ files, bucketName })
+                    )}`
                 }
                 className="flex items-center"
                 target="_blank"
@@ -199,6 +204,7 @@ export default function FilesTable({
             action={() => deleteMultipleFiles(selectedRows)}
             title={`Do you want to delete selected ${selectedRows.length} files?`}
             description="This action is irreversible. This will delete the selected files from our servers."
+            loading={loading}
           >
             <Button disabled={selectedRows.length < 1} variant="destructive">
               <Trash className="mr-2" /> Delete

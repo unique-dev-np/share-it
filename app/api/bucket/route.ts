@@ -107,13 +107,17 @@ export async function DELETE(req: NextRequest, res: NextResponse) {
     const baseUrl = process.env.VERCEL_URL
       ? "https://" + process.env.VERCEL_URL
       : "http://localhost:3000";
+
     const res = await fetch(`${baseUrl}/api/bucket/file`, {
       method: "DELETE",
       body: JSON.stringify({ files }),
     });
 
+    console.log(await res.json());
+
     const deletdBucket = await prisma.bucket.delete({ where: { id } });
     // })
+
     return NextResponse.json({
       success: true,
       message: "Bucket Deleted Successfully",

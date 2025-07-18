@@ -1,5 +1,5 @@
-import ExpiryTimeCard from "@/components/component/Bukcet/ExpiryTimeCard";
-import SizeCard from "@/components/component/Bukcet/SizeCard";
+import ExpiryTimeCard from "@/components/bucket/BucketExpiryCard";
+import SizeCard from "@/components/bucket/BucketSizeCard";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -12,18 +12,18 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 
 import { getCachedBucket, getCachedFiles } from "@/server/data";
-import { File, FileBarChart, Gauge, Lock, LockOpen } from "lucide-react";
+import { File, FileBarChart, Gauge } from "lucide-react";
 import { revalidatePath } from "next/cache";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import FilesTable from "@/components/component/Bukcet/FilesTable";
-import FileUploadDropzone from "@/components/component/Bukcet/FileUploadDropzone";
-import { bytesToMB } from "@/lib/utils";
+import FilesTable from "@/components/bucket/BucketFilesTable";
+import FileUploadDropzone from "@/components/bucket/BucketFileUploadDropzone";
+import { bytesToMB, isBucketExpired } from "@/lib/utils";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { Button } from "@/components/ui/button";
-import HeaderLockButton from "./components/HeaderLockButton";
-import HeaderDeleteButton from "./components/HeaderDeleteButton";
+import HeaderLockButton from "@/components/bucket/HeaderLockButton";
+import HeaderDeleteButton from "@/components/bucket/HeaderDeleteButton";
+import HeaderShareButton from "@/components/bucket/HeaderShareButton";
 
 async function revalidateBucket(id: string) {
   "use server";
@@ -41,7 +41,7 @@ export default async function page({ params }: { params: { id: string } }) {
   const bucket = await getCachedBucket(bucketID, session.user.email);
   const files = await getCachedFiles(bucketID, session.user.email);
 
-  if (!bucket) {
+  if (!bucket || isBucketExpired(bucket.expiresIn)) {
     return <div>Bucket Not Found</div>;
   }
 
@@ -65,15 +65,22 @@ export default async function page({ params }: { params: { id: string } }) {
         </Breadcrumb>
 
         <div className="actions flex gap-4 items-center">
+
+          {!bucket.isLocked &&
+            <HeaderShareButton bucketId={bucket.id} />
+          }
+
           <HeaderLockButton
             revalidate={revalidateBucket}
             bucketId={bucket.id}
             isLocked={bucket.isLocked}
           />
+
           <HeaderDeleteButton
             bucketId={bucket.id}
             revalidate={revalidateBucket}
           />
+
         </div>
       </header>
 
@@ -124,7 +131,7 @@ export default async function page({ params }: { params: { id: string } }) {
                   .reduce((a, b) => {
                     return a + bytesToMB(b.size);
                   }, 0)
-                  .toFixed(2)}{" "}
+                  .toFixed(2)}
                 MB
               </h1>
               <p className="text-sm text-gray-500 dark:text-gray-400">

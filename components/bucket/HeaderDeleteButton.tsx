@@ -1,6 +1,6 @@
 "use client";
 
-import GlobalAlertDialog from "@/components/component/GlobalAlertDialog";
+import GlobalAlertDialog from "@/components/common/GlobalAlertDialog";
 
 import { Button } from "@/components/ui/button";
 import { Loader, Trash } from "lucide-react";

@@ -95,11 +95,11 @@ export default function FilesTable({
               href={
                 selectedRows.length > 0
                   ? `/api/archive?images=${encodeURIComponent(
-                      JSON.stringify({ selectedRows, bucketName })
-                    )}`
+                    JSON.stringify({ selectedRows, bucketName })
+                  )}`
                   : `/api/archive?images=${encodeURIComponent(
-                      JSON.stringify({ files, bucketName })
-                    )}`
+                    JSON.stringify({ files, bucketName })
+                  )}`
               }
               className="flex items-center"
               target="_blank"
@@ -116,6 +116,7 @@ export default function FilesTable({
         selectableRows
         onSelectedRowsChange={onSelectedRowsChange}
         pagination={isClient}
+
       />
     </div>
   );

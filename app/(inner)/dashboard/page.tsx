@@ -5,9 +5,9 @@ import prisma from "@/prisma/db";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import InfoCards from "../profile/components/InfoCards";
-import RecentBucketsTable from "../profile/components/RecentBucketsTable";
-import RecentFilesTable from "../profile/components/RecentFilesTable";
+import InfoCards from "@/components/dashboard/InfoCards";
+import RecentBucketsTable from "@/components/dashboard/RecentBucketsTable";
+import RecentFilesTable from "@/components/dashboard/RecentFilesTable";
 
 export default async function Dashboard() {
   const session = await getServerSession(authOptions);
@@ -61,10 +61,10 @@ export default async function Dashboard() {
         </Link>
       </div>
 
-      <InfoCards 
-        totalBuckets={buckets.length} 
-        totalFiles={totalFiles} 
-        totalSize={totalSize} 
+      <InfoCards
+        totalBuckets={buckets.length}
+        totalFiles={totalFiles}
+        totalSize={totalSize}
       />
 
       <div className="mt-8">
