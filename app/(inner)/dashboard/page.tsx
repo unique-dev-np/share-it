@@ -8,6 +8,7 @@ import { redirect } from "next/navigation";
 import InfoCards from "@/components/dashboard/InfoCards";
 import RecentBucketsTable from "@/components/dashboard/RecentBucketsTable";
 import RecentFilesTable from "@/components/dashboard/RecentFilesTable";
+import { isBucketExpired } from "@/lib/utils";
 
 export default async function Dashboard() {
   const session = await getServerSession(authOptions);
@@ -30,7 +31,7 @@ export default async function Dashboard() {
   });
 
   const activeBuckets = buckets.filter(
-    (bucket) => new Date(bucket.expiresIn) > new Date()
+    (bucket) => !isBucketExpired(bucket.expiresIn)
   );
 
   const recentFiles = await prisma.file.findMany({
@@ -62,7 +63,7 @@ export default async function Dashboard() {
       </div>
 
       <InfoCards
-        totalBuckets={buckets.length}
+        totalBuckets={buckets.filter((bucket) => !isBucketExpired(bucket.expiresIn)).length}
         totalFiles={totalFiles}
         totalSize={totalSize}
       />
