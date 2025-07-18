@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { ArrowRight, Share2, UploadCloud, ShieldCheck, Zap, MousePointerSquareDashed, Link2, Download } from "lucide-react";
 
-export default function page() {
+export default function HomePage() {
   const { data: session } = useSession();
 
   return (
@@ -45,7 +45,7 @@ export default function page() {
               Share Files, Instantly & Securely.
             </h2>
             <p className="mt-4 text-lg md:text-xl max-w-3xl mx-auto text-blue-100">
-              The simplest and most elegant way to share your files with anyone, anywhere. Drag, drop, and share. It's that easy.
+              The simplest and most elegant way to share your files with anyone, anywhere. Drag, drop, and share. It&apos;s that easy.
             </p>
             <Link href={session ? "/dashboard" : "/signup"}>
               <Button size="lg" className="mt-8 px-8 py-4 text-lg font-semibold bg-white text-blue-600 hover:bg-gray-100 transition-transform transform hover:scale-105">

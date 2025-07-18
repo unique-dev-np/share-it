@@ -24,7 +24,7 @@ export default function TimeCard({ expiryDate }: { expiryDate: Date }) {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [expiryDateClient]);
+  }, [expiryDateClient, router]);
 
   return (
     <Card className="max-w-sm w-fit min-w-52">

@@ -51,7 +51,7 @@ export default async function page() {
 
       <Separator className="w-full my-4" />
 
-      {buckets.length < 1 && <div>No Buckets Found. Create one by clicking "Create New Bucket" above.</div>}
+      {buckets.length < 1 && <div>No Buckets Found. Create one by clicking &quot;Create New Bucket&quot; above.</div>}
 
       <div className="buckets-container flex justify-center flex-wrap gap-4  ">
         {buckets.map((bucket) => (
