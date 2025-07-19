@@ -54,6 +54,7 @@ export default function BucketCard({
         toast.error(message);
       }
     } catch (e: any) {
+      console.log(e);
       toast.error("Failed to delete bucket.");
     } finally {
       setLoading(false);
@@ -102,7 +103,7 @@ export default function BucketCard({
         )}
       </CardContent>
       <Separator className="mb-2" />
-      <CardFooter className=" gap-4 flex-wrap justify-center">
+      <CardFooter className=" gap-4 justify-center">
         {expiresIn >= 0 && (
           <Button asChild className="w-fit" variant="outline">
             <Link href={`/buckets/${bucket.id}`}>
